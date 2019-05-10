@@ -1,5 +1,11 @@
 /* global $, bookmarkApp, store, api */
 
+
+// NEED TO IMPLEMENT the HTML structure of what the items on the bookmarks list will look like
+// Refer to workup for visual structure (need delete button && when isDetailedView: true show full desc
+// and url)
+// make a toggleIsDetailedView in bookmarksapp
+
 'use strict';
 
 $.fn.extend({
