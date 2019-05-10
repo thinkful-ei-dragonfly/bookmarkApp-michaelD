@@ -10,17 +10,23 @@ Add Bookmark is pressed => enterNewBookmark shows
 the return at the bottom sets up the empty list, and the properties of the store
 */
 
+// eslint-disable-next-line no-unused-vars
 const store = (function() {
   const setError = function(error) {
     this.error = error;
   };
 
-  const addItem = function(item) {
-    this.items.push(item);
+  const addItem = function(id, title, desc, url, stars) {
+    this.items.push(id);
+    const item = this.findById(id);
+    item.title = title;
+    item.desc = desc;
+    item.url = url;
+    item.stars = stars;
   };
 
   const findById = function(id){
-    return this.items.find(item => item.id === id)
+    return this.items.find(item => item.id === id);
   };
 
   const findAndDelete = function(id) {
@@ -32,10 +38,10 @@ const store = (function() {
     this.newItemForm = !this.newItemForm;
   };
 
-  // sets state of selected item in items[] to isEditing
-  const setItemIsEditing = function (id, isEditing) {
+  // sets state of selected item in items[] to isDetailedView
+  const toggleItemDetailedView = function (id, isDetailedView) {
     const item = this.findById(id);
-    item.isEditing = isEditing;
+    item.isDetailedView = isDetailedView;
   };
 
   const setMinStars = function(stars) {
@@ -53,7 +59,7 @@ const store = (function() {
     findById,
     findAndDelete,
     toggleNewItemForm,
-    setItemIsEditing,
+    toggleItemDetailedView,
     setMinStars,
   }; 
 
