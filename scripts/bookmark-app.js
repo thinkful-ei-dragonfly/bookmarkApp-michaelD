@@ -1,4 +1,4 @@
-/* global store, $ */
+/* global store, $, api */
 'use strict';
 /* this bookmarkApp handles all the funcitonality for adding and removing
 Bookmarks to the the store[]. Like store.js it is an IIFE staement
@@ -40,7 +40,7 @@ const bookmarkApp = (function(){
   }
   
 
-  function generateBookmarkItemsString(bookmarkApp) {
+  function generateBookmarkString(bookmarkApp) {
     const items = bookmarkApp.map((item) => generateItemElement(item));
     return items.join('');
   }
@@ -57,35 +57,97 @@ const bookmarkApp = (function(){
     renderError();
     let items = [...store.items ];
 
-    //Filter list to only show items with stars >= minimumStars
-    if (store.minumStars > 0) {
-      items = items.filter(item => item.stars >= store.minimumStars);
+    //Filter list to only show items with rating >= minimumrating
+    if (store.minumRating > 0) {
+      items = items.filter(item => item.rating >= store.minimumRating);
     }
     
     // show console that render has run, gen a bookListItemsString
     console.log('`render` ran');
-    const bookmarkListItemsString = generateBookmarkItemsString(items);
+    const bookmarkListItemsString = generateBookmarkString(items);
       
     // insert that HTML string into the DOM
-    $('.js-bookmark-list').html(bookmarkListItemsString);
+    $('.js-bookmark-app-form').html(bookmarkListItemsString);
   }
-
 
   function handleToggleNewItemForm () {
-
+    // change 'js-bookmark-app-form' to show new input buttons
+    // the toggle function should handle the "add new" and "cancel" once
+    // the form has changed
+    $('newBookmark').click(() => {
+      store.toggleNewItemForm();
+      render();
+    });
   }
+
   function handleNewItemSubmit() {
-
+    $('#js-bookmark-app-form').submit(function (event) {
+      event.preventDefault();
+      const newBookmark = $('#js-bookmark-app-form').serializeJson();
+      event.target.reset;
+      api.createBookmark(newBookmark)
+        .then((newItem) => {
+          store.addItem(newItem);
+          render();
+        })
+        .catch((err) => {
+          store.setError(err.message);
+          renderError();
+        });
+    });
+  }
+  
+  function getItemIdFromElement(item) {
+    return $(item)
+      .closest('.js-item-element')
+      .data('item-id');
   }
 
-  function
 
+  function handleItemDetailClicked() {
+    $('.js-bookmark-list').on('click', '.js-item-toggle', event => {
+      const id = getItemIdFromElement(event.currentTarget);
+      const item = store.findById(id);
+      api.updateItem(id, { isDetailedView: !item.isDetailedView })
+        .then(() => {
+          store.findAndUpdate(id, { isDetailedView: !item.isDetailedView });
+          render();
+        })
+        .catch((err) => {
+          console.log(err);
+          store.setError(err.message);
+          renderError();
+        }
+        );
+    });
+  }
+
+  function handleDeleteItemClicked() {
+    $('.js-bookmark-list').on('click,', '.js-item-delete', event => {
+      const id = getItemIdFromElement(event.currentTarget);
+      
+      api.deleteItem(id)
+        .then (() => {
+          store.findAndDelete(id);
+          render();
+        })
+        .catch((err) => {
+          console.log(err);
+          store.setError(err.message);
+          renderError();
+        }
+        );
+    });
+  }
 
 
 
 
   function bindEventListeners() {
-    // handleSomething();
+    handleNewItemSubmit();
+    handleToggleNewItemForm ();
+    handleItemDetailClicked();
+    handleDeleteItemClicked();
   }
 
   return {
