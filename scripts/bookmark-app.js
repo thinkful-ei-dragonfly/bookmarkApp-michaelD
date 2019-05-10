@@ -3,7 +3,7 @@
 /* this bookmarkApp handles all the funcitonality for adding and removing
 Bookmarks to the the store[]. Like store.js it is an IIFE staement
 store.js manipulate the store | think array[]
-bookmarkApp manipulates the items in the store | think array[id] */
+bookmarkApp manipulates the bookmarks in the store | think array[id] */
 
 // eslint-disable-next-line no-unused-vars
 const bookmarkApp = (function(){
@@ -18,22 +18,22 @@ const bookmarkApp = (function(){
     `;
   }
 
-  function generateItemElement(item) {
-    const detailedClass = item.detailedView ? 'bookmark-item__detailed' : '';
+  function generateBookmarkElement(bookmark) {
+    const detailedClass = bookmark.isDetailedView ? 'bookmark-__detailed' : '';
 
-    let itemTitle = `<span class="bookmark-item ${detailedClass}">${item.name}</span>`;
-    if (item.isDetailedView) {
-      itemTitle = `
-        <form class="js-edit-item">
-          <input class="bookmark-item type="text" value="${item.name}" />
+    let bookmarkTitle = `<span class="bookmark-bookmark ${detailedClass}">${bookmark.title}</span>`;
+    if (bookmark.isDetailedView) {
+      bookmarkTitle = `
+        <form class="js-edit-bookmark">
+          <input class="bookmark-bookmark type="text" value="${bookmark.title}" />
         </form>
       `;
     }
   
     return `
-      <li class="js-item-element" data-item-id="${item.id}">
-        ${itemTitle}
-        <div class="bookmark-item-controls">
+      <li class="js-bookmark-element" data-bookmark-id="${bookmark.id}">
+        ${bookmarkTitle}
+        <div class="bookmark-bookmark-controls">
           </button>
         </div>
       </li>`;
@@ -41,8 +41,8 @@ const bookmarkApp = (function(){
   
 
   function generateBookmarkString(bookmarkApp) {
-    const items = bookmarkApp.map((item) => generateItemElement(item));
-    return items.join('');
+    const bookmarks = bookmarkApp.map((bookmark) => generateBookmarkElement(bookmark));
+    return bookmarks.join('');
   }
 
   function renderError() {
@@ -55,39 +55,45 @@ const bookmarkApp = (function(){
   }
   function render() {
     renderError();
-    let items = [...store.items ];
+    let bookmarks = [...store.bookmarks ];
 
-    //Filter list to only show items with rating >= minimumrating
+    //Filter list to only show bookmarks with rating >= minimumrating
     if (store.minumRating > 0) {
-      items = items.filter(item => item.rating >= store.minimumRating);
+      bookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.minimumRating);
     }
     
-    // show console that render has run, gen a bookListItemsString
+    // show console that render has run, gen a bookListBookmarksString
     console.log('`render` ran');
-    const bookmarkListItemsString = generateBookmarkString(items);
+    const bookmarkListStrings = generateBookmarkString(bookmarks);
       
     // insert that HTML string into the DOM
-    $('.js-bookmark-app-form').html(bookmarkListItemsString);
+    $('.bookmarks-list').html(bookmarkListStrings);
   }
 
-  function handleToggleNewItemForm () {
+  function handleToggleNewBookmarkForm () {
     // change 'js-bookmark-app-form' to show new input buttons
     // the toggle function should handle the "add new" and "cancel" once
     // the form has changed
     $('newBookmark').click(() => {
-      store.toggleNewItemForm();
+      store.toggleNewBookmarkForm();
       render();
     });
   }
 
-  function handleNewItemSubmit() {
+  function handleNewBookmarkSubmit() {
     $('#js-bookmark-app-form').submit(function (event) {
       event.preventDefault();
       const newBookmark = $('#js-bookmark-app-form').serializeJson();
+      console.log(newBookmark);
       event.target.reset;
       api.createBookmark(newBookmark)
-        .then((newItem) => {
-          store.addItem(newItem);
+        .then((response) => {
+          if (response.ok){
+            return response.json();
+          }
+        })
+        .then(bookmark => {
+          store.addBookmark(bookmark);
           render();
         })
         .catch((err) => {
@@ -97,20 +103,20 @@ const bookmarkApp = (function(){
     });
   }
   
-  function getItemIdFromElement(item) {
-    return $(item)
-      .closest('.js-item-element')
-      .data('item-id');
+  function getBookmarkIdFromElement(bookmark) {
+    return $(bookmark)
+      .closest('.js-bookmark-element')
+      .data('bookmark-id');
   }
 
 
-  function handleItemDetailClicked() {
-    $('.js-bookmark-list').on('click', '.js-item-toggle', event => {
-      const id = getItemIdFromElement(event.currentTarget);
-      const item = store.findById(id);
-      api.updateItem(id, { isDetailedView: !item.isDetailedView })
+  function handleBookmarkDetailClicked() {
+    $('.js-bookmark-list').on('click', '.js-bookmark-toggle', event => {
+      const id = getBookmarkIdFromElement(event.currentTarget);
+      const bookmark = store.findById(id);
+      api.updateBookmark(id, { isDetailedView: !bookmark.isDetailedView })
         .then(() => {
-          store.findAndUpdate(id, { isDetailedView: !item.isDetailedView });
+          store.findAndUpdate(id, { isDetailedView: !bookmark.isDetailedView });
           render();
         })
         .catch((err) => {
@@ -122,11 +128,11 @@ const bookmarkApp = (function(){
     });
   }
 
-  function handleDeleteItemClicked() {
-    $('.js-bookmark-list').on('click,', '.js-item-delete', event => {
-      const id = getItemIdFromElement(event.currentTarget);
+  function handleDeleteBookmarkClicked() {
+    $('.js-bookmark-list').on('click,', '.js-bookmark-delete', event => {
+      const id = getBookmarkIdFromElement(event.currentTarget);
       
-      api.deleteItem(id)
+      api.deleteBookmark(id)
         .then (() => {
           store.findAndDelete(id);
           render();
@@ -144,10 +150,10 @@ const bookmarkApp = (function(){
 
 
   function bindEventListeners() {
-    handleNewItemSubmit();
-    handleToggleNewItemForm ();
-    handleItemDetailClicked();
-    handleDeleteItemClicked();
+    handleNewBookmarkSubmit();
+    handleToggleNewBookmarkForm ();
+    handleBookmarkDetailClicked();
+    handleDeleteBookmarkClicked();
   }
 
   return {

@@ -1,3 +1,5 @@
+/* global $, bookmarkApp, store, api */
+
 'use strict';
 
 $.fn.extend({
@@ -15,5 +17,13 @@ $.fn.extend({
 });
 
 $(() =>  {
-bookmarkApp.bindEventListeners();
+  bookmarkApp.bindEventListeners();
+
+  //should fetch bookmarks on initial load
+  api.getBookmarks()
+    .then((bookmarks) => {
+      bookmarks.forEach((bookmark) => store.addBookmark(bookmark));
+      bookmarkApp.render();
+    })
+    .catch(err => console.log(err.message));
 });

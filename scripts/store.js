@@ -1,8 +1,7 @@
 'use strict';
-/* global store */
 
 /* This is a store program. It will be an IFFE statement just as it was in the
-shopping list example. Its purpose is to do things like add 'items' to the <ul>
+shopping list example. Its purpose is to do things like add 'bookmarks' to the <ul>
 it also holds other values like 'isAdding:(true || false)' which decides what 
 how  <form id="js-bookmark-list-form"> will display:
 (buttons&dropDown elements || enterNewBookmark elements)
@@ -16,32 +15,31 @@ const store = (function() {
     this.error = error;
   };
 
-  const addItem = function(id, title, url, desc, rating) {
-    this.items.push(id);
-    const item = this.findById(id);
-    item.title = title;
-    item.desc = desc;
-    item.url = url;
-    item.rating = rating;
+  const _toStore = function(bookmark){
+    return Object.assign(bookmark, {isDetailedView:false})
+  }
+  const addBookmark = function(bookmark) {
+    this.bookmarks.push(_toStore(bookmark));
+
   };
 
   const findById = function(id){
-    return this.items.find(item => item.id === id);
+    return this.bookmarks.find(bookmark => bookmark.id === id);
   };
 
   const findAndDelete = function(id) {
-    this.items = this.items.filter(item => item.id !== id);
+    this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
   };
 
-  // handles toggles new item form from 
-  const toggleNewItemForm = function() {
-    this.newItemForm = !this.newItemForm;
+  // handles toggles new bookmark form from 
+  const toggleNewBookmarkForm = function() {
+    this.newBookmarkForm = !this.newbookmarkForm;
   };
 
-  // sets state of selected item in items[] to isDetailedView
-  const toggleItemDetailedView = function (id, isDetailedView) {
-    const item = this.findById(id);
-    item.isDetailedView = isDetailedView;
+  // sets state of selected bookmark in bookmarks[] to isDetailedView
+  const toggleBookmarkDetailedView = function (id) {
+    const bookmark = this.findById(id);
+    bookmark.isDetailedView = !bookmark.isDetailedView;
   };
 
   const setMinRating = function(rating) {
@@ -49,17 +47,17 @@ const store = (function() {
   };
 
   return {
-    items: [],
+    bookmarks: [],
     error: null,
-    newItemForm: false,
+    newBookmarkForm: true,
     minimumRating: 0,
 
-    addItem,
+    addBookmark,
     setError,
     findById,
     findAndDelete,
-    toggleNewItemForm,
-    toggleItemDetailedView,
+    toggleNewBookmarkForm,
+    toggleBookmarkDetailedView,
     setMinRating,
   }; 
 
