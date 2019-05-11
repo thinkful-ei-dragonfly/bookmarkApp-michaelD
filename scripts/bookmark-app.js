@@ -145,8 +145,8 @@ const bookmarkApp = (function(){
 
   // this is to render the store seperately
   function render() {
-
     renderError();
+
     let bookmarks = [...store.bookmarks ];
     if (store.minumRating > 0) {
       bookmarks = bookmarks.filter(bookmark => bookmark.rating >= store.minimumRating);
@@ -202,7 +202,6 @@ const bookmarkApp = (function(){
           renderError();
         });
     });
-    render();
   }
 
   function expandBookmark() {
@@ -215,7 +214,13 @@ const bookmarkApp = (function(){
     });
   }
 
-  
+  const minimumChange= function() {
+    $('#js-add-bookmark').on('change', 'select', (e) => {
+      let filter = parseInt($(e.target).val());
+      store.setMinRating(filter);
+      render();
+    });
+  };
 
 
   function bindEventListeners() {
@@ -223,6 +228,7 @@ const bookmarkApp = (function(){
     handleNewBookmarkSubmit();
     handleDeleteButtonClicked();
     expandBookmark();
+    minimumChange();
   }
 
   return {
