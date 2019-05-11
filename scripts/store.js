@@ -16,13 +16,18 @@ const store = (function() {
   };
 
   const _toStore = function(bookmark){
-    return Object.assign(bookmark, {isDetailedView:false})
-  }
+    return Object.assign(bookmark, {isDetailedView:true});
+  };
   const addBookmark = function(bookmark) {
     this.bookmarks.push(_toStore(bookmark));
 
   };
 
+  // handles toggles new bookmark form from 
+  const toggleNewBookmarkForm = function() {
+    this.newBookmarkForm = !this.newbookmarkForm;
+  };
+  
   const findById = function(id){
     return this.bookmarks.find(bookmark => bookmark.id === id);
   };
@@ -31,16 +36,8 @@ const store = (function() {
     this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
   };
 
-  // handles toggles new bookmark form from 
-  const toggleNewBookmarkForm = function() {
-    this.newBookmarkForm = !this.newbookmarkForm;
-  };
 
   // sets state of selected bookmark in bookmarks[] to isDetailedView
-  const toggleBookmarkDetailedView = function (id) {
-    const bookmark = this.findById(id);
-    bookmark.isDetailedView = !bookmark.isDetailedView;
-  };
 
   const setMinRating = function(rating) {
     this.minumumRating = rating;
@@ -49,7 +46,7 @@ const store = (function() {
   return {
     bookmarks: [],
     error: null,
-    newBookmarkForm: false,
+    newBookmarkForm: true,
     minimumRating: 0,
 
     addBookmark,
@@ -57,7 +54,6 @@ const store = (function() {
     findById,
     findAndDelete,
     toggleNewBookmarkForm,
-    toggleBookmarkDetailedView,
     setMinRating,
   }; 
 

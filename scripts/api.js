@@ -1,7 +1,7 @@
 'use strict';
 // eslint-disable-next-line no-unused-vars
 const api = (function() {
-  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelD';
+  const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelD/bookmarks';
 
   /**
    * listApiFetch - Wrapper function for native `fetch` to standardize error handling. 
@@ -60,42 +60,34 @@ const api = (function() {
   };
 
   const getBookmarks = function() {
-    /*  for GET bookmarks, we can use listApiFetch
-    it will return the 'data' object from above
-    This means in index.js, getBookmarks
-    will be ready to handle the data and 
-    can use the foreach loop to create the store
-    see index.js */
-    return listApiFetch(`${BASE_URL}/bookmarks`);
+
+    return listApiFetch(BASE_URL);
+  };
+
+  const createBookmark = function(bookmark) {
+    return fetch(`${BASE_URL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: bookmark,
+    });
   };
 
 
   
-  const createBookmark = function(newBookmark) {
-    /*  for POST bookmarks, we will need to return the fetch
-    NOT listApiFetch which is used ONLY for building the store
-    see index.js */
-    return fetch(`${BASE_URL}/bookmarks`, {
-      method: 'POST',
-      headers: new Headers({'Content-Type': 'application/json'}), 
-      body: newBookmark,
-    });
-  };
-
   const deleteBookmark = function(id) {
-    /* Just like in POST....DELETE we will need to return the fetch
-    NOT listApiFetch which is used ONLY for building the store
-    see index.js */
-    return fetch(`${BASE_URL}/bookmarks/${id}`, {
-      method: 'DELETE', 
-    });
+    const options ={
+      method: 'DELETE'
+    };
+    return listApiFetch(`${BASE_URL}/${id}`, options);
   };
 
-
-  //expose 3 api functions and close IIFE
   return {
     getBookmarks,
     createBookmark,
-    deleteBookmark,
+    deleteBookmark
   };
+
+
 }());
