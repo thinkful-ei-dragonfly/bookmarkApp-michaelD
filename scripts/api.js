@@ -43,7 +43,8 @@ const api = (function() {
           return Promise.reject(error);
         }
 
-        // Now we can FINALLY return the json as a regular returned Promise
+        // NOW we can FINALLY return the json as a regular returned Promise and 
+        // be sure to close brackets and parenth
         return data;
       });
   };
@@ -54,21 +55,23 @@ const api = (function() {
     return listApiFetch(`${BASE_URL}/bookmarks`);
   };
 
-
-  const createBookmark = function(bookmark) {
+  const createBookmark = function(newBookmark) {
     return fetch(`${BASE_URL}/bookmarks`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: bookmark,
-    }
+      headers: new Headers({'Content-Type': 'application/json'}), 
+      body: newBookmark,
+    });
+  };
 
-    );
+  const deleteBookmark = function(id) {
+    return fetch(`${BASE_URL}/bookmarks/${id}`, {
+      method: 'DELETE', 
+    });
   };
 
   return {
     getBookmarks,
     createBookmark,
+    deleteBookmark,
   };
 }());

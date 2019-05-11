@@ -49,7 +49,7 @@ const store = (function() {
   return {
     bookmarks: [],
     error: null,
-    newBookmarkForm: true,
+    newBookmarkForm: false,
     minimumRating: 0,
 
     addBookmark,
