@@ -22,6 +22,8 @@ $.fn.extend({
   }
 });
 
+
+// Build the (main) function to build initial page state
 $(() =>  {
   bookmarkApp.bindEventListeners();
 
