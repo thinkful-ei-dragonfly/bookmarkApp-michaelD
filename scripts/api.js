@@ -1,6 +1,5 @@
-'use strict';
 // eslint-disable-next-line no-unused-vars
-const api = (function() {
+const api = (function () {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/michaelD/bookmarks';
 
   /**
@@ -11,15 +10,15 @@ const api = (function() {
    *                    - reject on non-2xx and non-JSON response with 
    *                      Object { code: Number, message: String }
    */
-  
-  const listApiFetch = function(...args) {
+
+  const listApiFetch = function (...args) {
     // error must be defined here because we are using it only within the scope of 
     // listApiFetch. This function does not know that error is defined as null in store
 
     let error;
     return fetch(...args)
 
-    // Always handle res first
+      // Always handle res first
       .then(res => {
         if (!res.ok) {
 
@@ -28,7 +27,7 @@ const api = (function() {
 
           // Check to see if response is json format
           // if not place statusText in error object and reject promise
-          if(!res.headers.get('content-type').includes('json')) {
+          if (!res.headers.get('content-type').includes('json')) {
             error.message = res.statusText;
             return Promise.reject(error);
           }
@@ -39,13 +38,13 @@ const api = (function() {
 
     /* 
     next, if error exists, place JSON message into error objectand 
-      reject the Promise with the error object. This error
-      will land in the catch in index.js as each functionb elow is called  
+    reject the Promise with the error object. This error
+    will land in the catch in index.js as each functionb elow is called  
     */
-      
+
       .then(data => {
 
-        if(error) {
+        if (error) {
           error.message = data.message;
           return Promise.reject(error);
         }
@@ -59,12 +58,11 @@ const api = (function() {
       });
   };
 
-  const getBookmarks = function() {
-
+  const getBookmarks = function () {
     return listApiFetch(BASE_URL);
   };
 
-  const createBookmark = function(bookmark) {
+  const createBookmark = function (bookmark) {
     return fetch(`${BASE_URL}`, {
       method: 'POST',
       headers: {
@@ -74,10 +72,8 @@ const api = (function() {
     });
   };
 
-
-  
-  const deleteBookmark = function(id) {
-    const options ={
+  const deleteBookmark = function (id) {
+    const options = {
       method: 'DELETE'
     };
     return listApiFetch(`${BASE_URL}/${id}`, options);
