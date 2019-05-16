@@ -1,4 +1,12 @@
+body {
+  background-color: #eeeeee
+}
 
+h1 {
+  background-color: #66ccff;
+  color: white;
+  text-align: center;
+}
 
 #js-bookmark-app-form {
   width: 600px;
@@ -13,9 +21,22 @@
   width: 600px;
   min-height: 400px;
   border:1px solid black;
+  margin-top: 30px;
   margin-left: auto;
   margin-right: auto;
   display:block;
-  padding: 0;
-  
+  padding: 0px;
+}
+
+
+#js-min-stars {
+  position: inherit;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  display: block;
+  width: 200px;
+  height: 30px;
+  border: 3px solid #73AD21;
 }

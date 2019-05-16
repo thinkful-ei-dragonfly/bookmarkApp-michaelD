@@ -201,7 +201,7 @@ const bookmarkApp = (function () {
   }
 
   const minimumChange = function () {
-    $('#js-add-bookmark').on('change', 'select', (e) => {
+    $('#js-min-stars').on('change', 'select', (e) => {
       let filter = parseInt($(e.target).val());
       store.setMinRating(filter);
       render();
