@@ -19,22 +19,21 @@ const bookmarkApp = (function () {
 
   function generateRatingString(rating) {
     if (rating === 5) {
-      return '5 STARS';
+      return '&#9733&#9733&#9733&#9733&#9733';
     } else if (rating === 4) {
-      return '4 STARS';
+      return '&#9733&#9733&#9733&#9733&#9734';
     } else if (rating === 3) {
-      return '3 STARS';
+      return '&#9733&#9733&#9733&#9734&#9734';
     } else if (rating === 2) {
-      return '2 STARS';
+      return '&#9733&#9733&#9734&#9734&#9734';
     } else if (rating === 1) {
-      return '1 STAR';
+      return '&#9733&#9734&#9734&#9734&#9734';
     } else {
-      return 'NO STARS';
+      return '&#9734';
     }
   }
 
   function generateBookmarkElement(bookmark) {
-
     let bookmarkInfo = '';
     if (bookmark.isDetailedView) {
       bookmarkInfo = `
@@ -65,15 +64,12 @@ const bookmarkApp = (function () {
             ${bookmarkInfo}
         </li>
         `;
-
   }
 
   function generateBookmarkString(bookmarkApp) {
     const bookmarks = bookmarkApp.map((bookmark) => generateBookmarkElement(bookmark));
     return bookmarks.join('');
   }
-
-
 
   function renderError() {
     if (store.error) {
@@ -84,28 +80,25 @@ const bookmarkApp = (function () {
     }
   }
 
-
   function renderForm() {
     let bookmarkHTML = '';
     if (store.newBookmarkForm === false) {
       bookmarkHTML = `
       <button class="js-toggle-bookmark" > Add Bookmark </button>
-      
       `;
-
     } else {
       bookmarkHTML = `
-      <div class="left">
-      <label for="title">Title: </label>
-      <input type="text" name="title" id="js-title-input" placeholder="title">
-      <label for="url">URL: </label>
-      <input type="url" name="url" id="js-url-input" placeholder="http://www.google.com">
-      <label for="description">Description: </label>
-      <input type="text" name="desc" id="js-description-input">
-    </div>
-
-    <div class="right">
-      <input type="radio" name="rating" value="5" id="starRating-5">
+    <fieldset>
+      <legend>New Bookmark Form</legend>
+        <label for="title">Title: </label>
+        <input type="text" name="title" id="js-title-input" placeholder="title">
+        <label for="url">URL: </label>
+        <input type="url" name="url" id="js-url-input" placeholder="http://www.google.com">
+        <label for="description">Description: </label>
+        <input type="text" name="desc" id="js-description-input">
+        <input type="radio" name="rating" value="5" id="starRating-5">
+    <fieldset id="bookmark-rating">
+      <legend>Rating</legend>
       <label for="StarRating-5"> 5 Stars </label>
       <input type="radio" name="rating" value="4" id="starRating-4">
       <label for="StarRating-4"> 4 Stars </label>
@@ -115,10 +108,11 @@ const bookmarkApp = (function () {
       <label for="StarRating-2"> 2 Stars </label>
       <input type="radio" name="rating" value="1" id="starRating-1">
       <label for="StarRating-1"> 1 Stars </label>
-    </div>
+    </fieldset>
     <button type="submit">Submit</button>
-
- `;
+    <button class="js-toggle-bookmark" > Cancel </button>
+    </fieldset>
+    `;
     }
 
     $('#js-bookmark-app-form').html(bookmarkHTML);
@@ -149,7 +143,6 @@ const bookmarkApp = (function () {
     $('#js-bookmark-app-form').submit(function (event) {
       event.preventDefault();
       const newBookmark = $('#js-bookmark-app-form').serializeJson();
-      console.log(newBookmark);
       event.target.reset;
       api.createBookmark(newBookmark)
         .then((response) => {
@@ -177,7 +170,6 @@ const bookmarkApp = (function () {
   function handleDeleteButtonClicked() {
     $('.js-bookmark-list').on('click', '.js-bookmark-delete', event => {
       let id = getBookmarkIdFromElement(event.currentTarget);
-      console.log(id);
       api.deleteBookmark(id)
         .then(() => {
           store.findAndDelete(id);
@@ -193,7 +185,6 @@ const bookmarkApp = (function () {
   function expandBookmark() {
     $('.js-bookmark-list').on('click', '.js-bookmark-list-more-info', event => {
       let id = getBookmarkIdFromElement(event.currentTarget);
-      console.log(`expanded ${id}`);
       const targetBookmark = store.findById(id);
       targetBookmark.isDetailedView = !targetBookmark.isDetailedView;
       render();

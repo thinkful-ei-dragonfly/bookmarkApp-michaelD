@@ -10,30 +10,28 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
-  <div class="container">
-    <h1>My Bookmarks App</h1>
-    <form id="js-bookmark-app-form">
-    </form>
-
-    <div id="js-min-stars">
-      <select name="minimum-Stars">
-        <option value="5">5 Stars</option>
-        <option value="4">4 Stars</option>
-        <option value="3">3 Stars</option>
-        <option value="2">2 Stars</option>
-        <option selected value="1">1 Star</option>
-      </select>
-      <p>Filter Bookmarks by Min Stars</p>
-    </div>
-    <ul class="bookmarks-list js-bookmark-list">
-    </ul>
-  </div>
-
+  <h1>My Bookmarks App</h1>
+  <form id="js-bookmark-app-form">
+  </form>
+  <legend id="js-min-stars">
+    <select name="minimum-Stars">
+      <option value="5">5 Stars</option>
+      <option value="4">4 Stars</option>
+      <option value="3">3 Stars</option>
+      <option value="2">2 Stars</option>
+      <option selected value="1">1 Star</option>
+    </select>
+    <p>Filter Bookmarks by Min Stars</p>
+  </legend>
+  <ul class="bookmarks-list js-bookmark-list">
+  </ul>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="scripts/api.js"></script>
   <script type="text/javascript" src="scripts/store.js"></script>
   <script type="text/javascript" src="scripts/bookmark-app.js"></script>
   <script type="text/javascript" src="scripts/index.js"></script>
 </body>
+
 </html>

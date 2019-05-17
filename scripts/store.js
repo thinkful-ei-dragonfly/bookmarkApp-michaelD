@@ -12,7 +12,7 @@ const store = (function () {
   };
 
   const toggleNewBookmarkForm = function () {
-    this.newBookmarkForm = !this.newbookmarkForm;
+    this.newBookmarkForm = !this.newBookmarkForm;
   };
 
   const findById = function (id) {
