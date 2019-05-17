@@ -1,6 +1,17 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
 body {
-  background-color: #C7EDFF
+  display:block;
+  margin: 0;
+  padding: 0;
+  background: #DDD;
+  background-color: rgb(225, 230, 247);
+  font-size: 16px;
+  color: #222;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
+
 
 h1 {
   background-color: #00699C;
@@ -9,13 +20,33 @@ h1 {
 }
 
 #js-bookmark-app-form {
-  background-color: #FFD25E;
-  width: 600px;
+  background-color: #07ACFB;
+  width: 780px;
   min-height: 300px;
-  border:1px solid black;
   margin-left: auto;
   margin-right: auto;
   display:block;
+}
+
+#js-bookmark-app-form .left {
+  position: relative;
+  float: left;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 20px;
+  width: 300px;
+  height: 300px;
+}
+#js-bookmark-app-form .right {
+  position: relative;
+  float:right;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 20px;
+  background-position: center;
+  border-radius: 0 2px 2px 0;
 }
 
 #js-min-stars {
@@ -35,9 +66,8 @@ h1 {
 
 .bookmarks-list {
   background-color:#FF805E;
-  width: 600px;
+  width: 780px;
   min-height: 400px;
-  border:1px solid black;
   margin-top: 30px;
   margin-left: auto;
   margin-right: auto;

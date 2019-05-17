@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>My Bookmarks App</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
@@ -15,7 +15,9 @@
   <h1>My Bookmarks App</h1>
   <form id="js-bookmark-app-form">
   </form>
-  <legend id="js-min-stars">
+  
+  <fieldset id='js-min-stars'>
+    <legend>Filter By Rating</legend>
     <select name="minimum-Stars">
       <option value="5">5 Stars</option>
       <option value="4">4 Stars</option>
@@ -23,8 +25,7 @@
       <option value="2">2 Stars</option>
       <option selected value="1">1 Star</option>
     </select>
-    <p>Filter Bookmarks by Min Stars</p>
-  </legend>
+  </fieldset>
   <ul class="bookmarks-list js-bookmark-list">
   </ul>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

@@ -7,7 +7,6 @@ bookmarkApp manipulates the bookmarks in the store | think array[id] */
 // eslint-disable-next-line no-unused-vars
 const bookmarkApp = (function () {
 
-
   function generateError(message) {
     return `
       <section class="error-content">
@@ -37,13 +36,13 @@ const bookmarkApp = (function () {
     let bookmarkInfo = '';
     if (bookmark.isDetailedView) {
       bookmarkInfo = `
-                <div>
-                    <p class="bookmark-description">${bookmark.desc}</p>
-                    <a href=${bookmark.url}><button>Visit Site</button></a>
-                    <button class="js-bookmark-delete">Delete</button>
-                    <button class="js-bookmark-list-more-info"> Show less</button>
-                </div>
-                `;
+          <div>
+            <p class="bookmark-description">${bookmark.desc}</p>
+            <a href=${bookmark.url}><button>Visit Site</button></a>
+            <button class="js-bookmark-delete">Delete</button>
+            <button class="js-bookmark-list-more-info"> Show less</button>
+          </div>
+          `;
     } else {
       bookmarkInfo = `
       <button class="js-bookmark-list-more-info">More Info</button>
@@ -58,10 +57,10 @@ const bookmarkApp = (function () {
     return `
         <li class="bookmark js-bookmark" data-item-id="${bookmark.id}">
         <p class="bookmark-title">${bookmark.title}</p>
-            <div class="rating">
-                ${generateRatingString(bookmark.rating)}
-            </div>
-            ${bookmarkInfo}
+          <div class="rating">
+            ${generateRatingString(bookmark.rating)}
+          </div>
+          ${bookmarkInfo}
         </li>
         `;
   }
@@ -88,30 +87,32 @@ const bookmarkApp = (function () {
       `;
     } else {
       bookmarkHTML = `
-    <fieldset>
-      <legend>New Bookmark Form</legend>
-        <label for="title">Title: </label>
-        <input type="text" name="title" id="js-title-input" placeholder="title">
-        <label for="url">URL: </label>
-        <input type="url" name="url" id="js-url-input" placeholder="http://www.google.com">
-        <label for="description">Description: </label>
-        <input type="text" name="desc" id="js-description-input">
-        <input type="radio" name="rating" value="5" id="starRating-5">
-    <fieldset id="bookmark-rating">
-      <legend>Rating</legend>
-      <label for="StarRating-5"> 5 Stars </label>
-      <input type="radio" name="rating" value="4" id="starRating-4">
-      <label for="StarRating-4"> 4 Stars </label>
-      <input type="radio" name="rating" value="3" id="starRating-3">
-      <label for="StarRating-3"> 3 Stars </label>
-      <input type="radio" name="rating" value="2" id="starRating-2">
-      <label for="StarRating-2"> 2 Stars </label>
-      <input type="radio" name="rating" value="1" id="starRating-1">
-      <label for="StarRating-1"> 1 Stars </label>
-    </fieldset>
-    <button type="submit">Submit</button>
-    <button class="js-toggle-bookmark" > Cancel </button>
-    </fieldset>
+
+      <fieldset class="left">
+        <legend>New Bookmark Form</legend>
+          <label for="title">Title: </label>
+          <input type="text" name="title" id="js-title-input" placeholder="title">
+          <label for="url">URL: </label>
+          <input type="url" name="url" id="js-url-input" placeholder="http://www.google.com">
+          <label for="description">Description: </label>
+          <input type="text" name="desc" id="js-description-input">
+          <button type="submit">Submit</button>
+          <button class="js-toggle-bookmark" > Cancel </button>
+          </fieldset>
+      <fieldset id="bookmark-rating" class="right">
+        <legend>Rating</legend>
+          <input type="radio" name="rating" value="5" id="starRating-5">
+          <label for="StarRating-5"> 5 Stars </label>
+          <input type="radio" name="rating" value="4" id="starRating-4">
+          <label for="StarRating-4"> 4 Stars </label>
+          <input type="radio" name="rating" value="3" id="starRating-3">
+          <label for="StarRating-3"> 3 Stars </label>
+          <input type="radio" name="rating" value="2" id="starRating-2">
+          <label for="StarRating-2"> 2 Stars </label>
+          <input type="radio" name="rating" value="1" id="starRating-1">
+          <label for="StarRating-1"> 1 Stars </label>
+        
+      </fieldset>
     `;
     }
 
